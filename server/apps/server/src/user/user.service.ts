@@ -8,14 +8,15 @@ import { ResponseService } from '@libs/shared';
 export class UserService {
   constructor(
     private readonly response: ResponseService,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
   ) {}
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }
 
-  findAll() {
-    return this.response.success(this.prisma.getTest());
+  async findAll() {
+    const users = await this.prisma.user.findMany();
+    return this.response.success(users);
   }
 
   findOne(id: number) {

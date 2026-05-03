@@ -6,9 +6,9 @@ import { ResponseService } from '@libs/shared';
 export class AppService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly response: ResponseService
+    private readonly response: ResponseService,
   ) {}
   getHello() {
-    return this.response.success(this.prisma.getTest());
+    return this.response.success('Hello Prisma!');
   }
 }

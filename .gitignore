@@ -10,6 +10,8 @@ out/
 .nuxt/
 .next/
 
+server/libs/shared/src/generated/
+
 ### 日志 ###
 logs/
 *.log
