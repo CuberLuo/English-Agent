@@ -18,6 +18,7 @@
         </div>
         <div class="flex items-center gap-2 pt-10">
           <button
+            @click="showLogin"
             class="bg-indigo-700 text-white rounded-[100px] px-4 py-2 cursor-pointer text-sm block w-30 h-10"
           >
             立即学习
@@ -126,6 +127,8 @@ import Hologram from './components/Hologram.vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { onMounted, reactive } from 'vue'
+import { useLogin } from '@/hooks/useLogin'
+const { login } = useLogin()
 gsap.registerPlugin(ScrollTrigger)
 const stats = reactive([
   { value: 0, suffix: '+', label: '累计学员', target: 1000000 },
@@ -260,7 +263,11 @@ const initProject = () => {
     },
   )
 }
-
+const showLogin = () => {
+  login().then(() => {
+    console.log('登录成功之后跳转页面')
+  })
+}
 onMounted(() => {
   initProject()
 })
