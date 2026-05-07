@@ -1,8 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import type { UserLogin, UserRegister } from '@en/common/user';
+import type { UserLogin, UserRegister, Token } from '@en/common/user';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -16,5 +24,10 @@ export class UserController {
   @Post('register')
   register(@Body() createUserDto: UserRegister) {
     return this.userService.register(createUserDto);
+  }
+  //刷新token 只需要一个参数 refreshToken
+  @Post('refresh-token')
+  refreshToken(@Body() createUserDto: Omit<Token, 'accessToken'>) {
+    return this.userService.refreshToken(createUserDto);
   }
 }

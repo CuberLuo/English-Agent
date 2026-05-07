@@ -4,10 +4,12 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { WordBookModule } from './word-book/word-book.module';
 import { SharedModule } from '@libs/shared';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UserModule, WordBookModule, SharedModule],
+  imports: [UserModule, WordBookModule, SharedModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService],
 })
 export class AppModule {}
