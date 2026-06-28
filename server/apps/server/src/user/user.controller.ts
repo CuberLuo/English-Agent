@@ -1,16 +1,22 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
+  UploadedFile,
+  UseInterceptors,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import type { UserLogin, UserRegister, Token } from '@en/common/user';
+import type {
+  UserLogin,
+  UserRegister,
+  Token,
+  UserUpdate,
+} from '@en/common/user';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from '@libs/shared/auth/auth.guard';
+import type { Request } from 'express';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -29,5 +35,19 @@ export class UserController {
   @Post('refresh-token')
   refreshToken(@Body() createUserDto: Omit<Token, 'accessToken'>) {
     return this.userService.refreshToken(createUserDto);
+  }
+
+  //上传头像
+  @Post('upload-avatar')
+  @UseInterceptors(FileInterceptor('file')) //限制前端的key必须是file
+  uploadAvatar(@UploadedFile() file: Express.Multer.File) {
+    return this.userService.uploadAvatar(file);
+  }
+  //更新用户信息
+  @UseGuards(AuthGuard) //不传tolen401 传了之后payload userId name email
+  @Post('update-user')
+  updateUser(@Body() createUserDto: UserUpdate, @Req() req: Request) {
+    const user = req.user;
+    return this.userService.updateUser(createUserDto, user);
   }
 }

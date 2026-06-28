@@ -2,6 +2,11 @@ import axios from 'axios'
 import { useUserStore } from '@/stores/user' //pinia user的
 import router from '@/router' //路由
 import { refreshTokenApi } from './auth' //刷新token接口
+import { ElMessage } from 'element-plus'
+console.log('import.meta.env.DEV: ', import.meta.env.DEV)
+export const uploadUrl = import.meta.env.DEV
+  ? 'http://192.168.88.1:9000'
+  : 'http://线上地址待定'
 export const timeout = 50000
 //server服务器接口
 export const serverApi = axios.create({
@@ -24,6 +29,10 @@ serverApi.interceptors.response.use(
     return res.data
   },
   async (error) => {
+    if (error.code === 'ERR_NETWORK') {
+      ElMessage.error('网络连接失败,请重试')
+      return Promise.reject(error)
+    }
     if (error.response.status !== 401) {
       //其他code码就直接抛出异常
       return Promise.reject(error)
@@ -36,6 +45,7 @@ serverApi.interceptors.response.use(
     if (!accessToken || !refreshToken) {
       userStore.logout() //清空user
       router.replace('/') //跳转到首页
+      ElMessage.error('登录已过期,请重新登录')
       return Promise.reject(error)
     }
     if (isRefreshing) {
@@ -56,6 +66,7 @@ serverApi.interceptors.response.use(
       } else {
         userStore.logout() //清空user
         router.replace('/') //跳转到首页
+        ElMessage.error('登录已过期,请重新登录')
         return Promise.reject(error)
       }
       const newAccessToken = newToken.data.accessToken
