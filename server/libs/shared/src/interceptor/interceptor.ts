@@ -13,9 +13,7 @@ const transformBigInt = (obj: any) => {
     if (obj instanceof Date) {
       return obj;
     }
-    return Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => [key, transformBigInt(value)])
-    );
+    return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, transformBigInt(value)]));
   }
   return obj;
 };
@@ -23,19 +21,19 @@ const transformBigInt = (obj: any) => {
 @Injectable()
 export class InterceptorInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const ctx = context.switchToHttp()
-    const request = ctx.getRequest()
+    const ctx = context.switchToHttp();
+    const request = ctx.getRequest();
     return next.handle().pipe(
-      map((data) => {
+      map(data => {
         return {
           timestamp: new Date().toISOString(),
           path: request.url,
           message: data?.message || '请求成功',
           code: data?.code || 200,
           success: true,
-          data: transformBigInt(data?.data) ?? null
-        }
-      })
-    )
+          data: transformBigInt(data?.data) ?? null,
+        };
+      }),
+    );
   }
 }

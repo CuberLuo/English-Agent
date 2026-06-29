@@ -1,9 +1,4 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
 
 @Catch(HttpException)
 export class InterceptorExceptionFilter implements ExceptionFilter {
@@ -16,7 +11,7 @@ export class InterceptorExceptionFilter implements ExceptionFilter {
       path: request.url,
       message: exception.message,
       code: exception.getStatus(),
-      success: false
+      success: false,
     });
   }
 }

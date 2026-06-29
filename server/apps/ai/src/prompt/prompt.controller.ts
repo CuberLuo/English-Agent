@@ -5,7 +5,6 @@ import { PromptService } from './prompt.service';
 export class PromptController {
   constructor(private readonly promptService: PromptService) {}
 
-
   @Get('list')
   findAll() {
     return this.promptService.findAll();

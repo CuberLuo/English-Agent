@@ -1,11 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type {
-  UserLogin,
-  UserRegister,
-  Token,
-  RefreshTokenPayload,
-  UserUpdate,
-} from '@en/common/user';
+import type { UserLogin, UserRegister, Token, RefreshTokenPayload, UserUpdate } from '@en/common/user';
 import { PrismaService, ResponseService } from '@libs/shared';
 import type { Prisma } from '@libs/shared/generated/prisma/client';
 import { AuthService } from '../auth/auth.service';
@@ -107,9 +101,7 @@ export class UserService {
   async refreshToken(createUserDto: Omit<Token, 'accessToken'>) {
     //1. 验证refreshToken是否有效 verify检查token是否有效 并且返回解码后的数据 sign生成token
     try {
-      const decoded = this.jwtService.verify<RefreshTokenPayload>(
-        createUserDto.refreshToken,
-      );
+      const decoded = this.jwtService.verify<RefreshTokenPayload>(createUserDto.refreshToken);
       //2.为什么增加这么一个判断 accessToken 冒充refreshToken 进行攻击
       if (decoded.tokenType !== 'refresh') {
         return this.responseService.error(null, 'refreshToken已过期或无效');

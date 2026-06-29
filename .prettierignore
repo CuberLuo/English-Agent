@@ -1,0 +1,9 @@
+node_modules
+dist
+build
+output
+coverage
+*.lock
+pnpm-lock.yaml
+turbo-cache
+*.log

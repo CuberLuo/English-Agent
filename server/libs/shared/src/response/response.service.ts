@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 const Business = {
   SUCCESS: {
     code: 200,
-    message: 'success'
+    message: 'success',
   },
   ERROR: {
     code: 500,
-    message: 'error'
-  }
+    message: 'error',
+  },
 };
 @Injectable()
 export class ResponseService {
@@ -15,14 +15,14 @@ export class ResponseService {
     return {
       data,
       code: Business.SUCCESS.code,
-      message: Business.SUCCESS.message
+      message: Business.SUCCESS.message,
     };
   }
   error(data = null, message: string, code: number = Business.ERROR.code) {
     return {
       data,
       code,
-      message: message || Business.ERROR.message
+      message: message || Business.ERROR.message,
     };
   }
 }

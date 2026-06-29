@@ -9,14 +9,7 @@ import { MinioModule } from './minio/minio.module';
 @Global()
 @Module({
   providers: [SharedService],
-  exports: [
-    SharedService,
-    PrismaModule,
-    ResponseModule,
-    JwtModule,
-    ConfigModule,
-    MinioModule,
-  ],
+  exports: [SharedService, PrismaModule, ResponseModule, JwtModule, ConfigModule, MinioModule],
   imports: [
     PrismaModule,
     ResponseModule,

@@ -28,7 +28,7 @@ const sendMessage = (message: string, deepThink: boolean, webSearch: boolean) =>
     CHAT_URL,
     'POST',
     { role: role.value, content: message, userId: userId!, deepThink, webSearch },
-    (data) => {
+    data => {
       if (data.type === 'reasoning') {
         list.value[list.value.length - 1]!.reasoning += data.content;
       }

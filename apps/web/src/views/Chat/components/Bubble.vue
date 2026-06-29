@@ -19,8 +19,7 @@
             <div
               v-if="item.role === 'ai' && item.content !== ''"
               class="text-sm text-gray-700 max-w-[80%] bg-white rounded-lg mt-2 deepseek-markdown"
-              v-html="parseMarkdown(item.content)"
-            />
+              v-html="parseMarkdown(item.content)" />
           </div>
         </div>
       </div>
@@ -36,8 +35,7 @@
               ? 'bg-purple-100 border-purple-400 text-purple-700'
               : 'bg-gray-100 border-gray-200 text-gray-500 hover:bg-gray-200'
           "
-          @click="deepThink = !deepThink"
-        >
+          @click="deepThink = !deepThink">
           <span>🧠</span>
           <span>深度思考</span>
         </div>
@@ -48,8 +46,7 @@
               ? 'bg-blue-100 border-blue-400 text-blue-700'
               : 'bg-gray-100 border-gray-200 text-gray-500 hover:bg-gray-200'
           "
-          @click="webSearch = !webSearch"
-        >
+          @click="webSearch = !webSearch">
           <span>🌐</span>
           <span>联网搜索</span>
         </div>

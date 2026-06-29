@@ -1,19 +1,6 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UploadedFile,
-  UseInterceptors,
-  UseGuards,
-  Req,
-} from '@nestjs/common';
+import { Controller, Post, Body, UploadedFile, UseInterceptors, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
-import type {
-  UserLogin,
-  UserRegister,
-  Token,
-  UserUpdate,
-} from '@en/common/user';
+import type { UserLogin, UserRegister, Token, UserUpdate } from '@en/common/user';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@libs/shared/auth/auth.guard';
 import type { Request } from 'express';

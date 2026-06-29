@@ -1,10 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import {
-  createDeepSeek,
-  createCheckpoint,
-  createDeepSeekReasoner,
-  createBochaSearch,
-} from '../llm/llm.config';
+import { createDeepSeek, createCheckpoint, createDeepSeekReasoner, createBochaSearch } from '../llm/llm.config';
 import { PostgresSaver } from '@langchain/langgraph-checkpoint-postgres';
 import { ChatRoleType, ChatDto } from '@en/common/chat';
 import type { AIMessageChunk, ReactAgent } from 'langchain';
@@ -21,9 +16,7 @@ export class ChatService implements OnModuleInit {
   }
 
   async streamCompletion(createChatDto: ChatDto) {
-    const promptObject = chatMode.find(
-      (item) => item.role === createChatDto.role,
-    );
+    const promptObject = chatMode.find(item => item.role === createChatDto.role);
     if (!promptObject) {
       throw new Error('模式不存在');
     }
@@ -64,7 +57,7 @@ export class ChatService implements OnModuleInit {
     const list = messages?.channel_values?.messages as AIMessageChunk[];
     if (!list) return this.responseService.success([]); //如果历史记录为空，则返回空数组
     return this.responseService.success(
-      list.map((item) => ({
+      list.map(item => ({
         content: item.content,
         role: item.type,
         reasoning: item.additional_kwargs?.reasoning_content, //返回深度思考的内容

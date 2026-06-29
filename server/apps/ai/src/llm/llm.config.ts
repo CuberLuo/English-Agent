@@ -27,35 +27,30 @@ export const createDeepSeekReasoner = () => {
 //2.初始化checkpoint
 export const createCheckpoint = async () => {
   const configService = new ConfigService();
-  const checkpointer = PostgresSaver.fromConnString(
-    configService.get<string>('AI_DATABASE_URL')!,
-  );
+  const checkpointer = PostgresSaver.fromConnString(configService.get<string>('AI_DATABASE_URL')!);
   await checkpointer.setup();
   return checkpointer;
 };
 //3.初始化博查搜索API
 export const createBochaSearch = async (query: string, count: number = 10) => {
   const configService = new ConfigService();
-  const result = await fetch(
-    `${configService.get<string>('BOCHA_SEARCH_URL')}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${configService.get<string>('BOCHA_API_KEY')}`,
-      },
-      body: JSON.stringify({
-        query, //查询内容
-        count, //查询数量
-        summary: true, //摘要
-      }),
+  const result = await fetch(`${configService.get<string>('BOCHA_SEARCH_URL')}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${configService.get<string>('BOCHA_API_KEY')}`,
     },
-  );
+    body: JSON.stringify({
+      query, //查询内容
+      count, //查询数量
+      summary: true, //摘要
+    }),
+  });
   const { data } = await result.json();
   const values = data.webPages.value;
   const prompt = values
     .map(
-      (item) => `
+      item => `
         标题：${item.name}
         链接：${item.url}
         摘要：${item?.summary?.replace(/\n/g, '') ?? ''}

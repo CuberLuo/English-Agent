@@ -3,6 +3,6 @@ import { ResponseService } from './response.service';
 
 @Module({
   providers: [ResponseService],
-  exports: [ResponseService]
+  exports: [ResponseService],
 })
 export class ResponseModule {}
